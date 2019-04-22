@@ -10,4 +10,5 @@ It supports the following functionality:
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. 
+Navigate to the project's directory and run `npm install` to install all the dependencies for the project.
+Then run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. 
