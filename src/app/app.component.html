@@ -1,21 +1,85 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div>
+<mat-toolbar>
+    Simple Shopping Cart App 
+  </mat-toolbar>
+<mat-card>
+    <mat-card-title>Select from product catalog</mat-card-title>
+  <form [formGroup]="addCartItemForm">
+    <mat-form-field>
+        <mat-label>Current User # (any)</mat-label>
+      <input matInput placeholder="12" required formControlName="userId">
+    </mat-form-field>
+    <mat-table [dataSource]="products" class="mat-elevation-z8">
+    
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Product Name </mat-header-cell>
+        <mat-cell *matCellDef="let element" > {{element.name}} 
+            <input [hidden]="true" value={{element.id}} ng-="productId">
+        </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+      </ng-container>
 
-<router-outlet></router-outlet>
+      <ng-container matColumnDef="quantity">
+          <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
+              <mat-cell *matCellDef="let element">   
+              <mat-form-field>
+                <input matInput id="quantity{{element.id}}" value=0>
+              </mat-form-field>
+             </mat-cell>
+        </ng-container>
+
+      <ng-container matColumnDef="submit">
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let element"> 
+          <button mat-raised-button color="primary" (click)="addCartItemSubmit(element.id)">Add To Cart</button> 
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </form>
+</mat-card>
+<mat-divider></mat-divider>
+<mat-card>
+  <mat-card-title>View shopping cart for user</mat-card-title>
+  <form [formGroup]="viewCartForm">
+      <mat-form-field>
+          <mat-label>Current User ID</mat-label>
+        <input matInput placeholder="12" required formControlName="userId">
+      </mat-form-field>
+      <button mat-raised-button color="primary"  (click)="viewCartSubmit()">Submit</button> 
+  
+      <mat-table [dataSource]="cartItems" class="mat-elevation-z8">
+        <ng-container matColumnDef="productName">
+          <mat-header-cell *matHeaderCellDef> Product Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.productName}} </mat-cell>
+        </ng-container>
+      
+        <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+        </ng-container>
+        
+          <ng-container matColumnDef="quantity">
+              <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.quantity}} </mat-cell>
+            </ng-container>
+        
+        <ng-container matColumnDef="remove">
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-cell *matCellDef="let element"> 
+            <button mat-raised-button color="warn"  (click)="removeCartItem(element.id)">Remove</button> 
+          </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedCartColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedCartColumns;"></mat-row>
+      </mat-table>
+    </form>
+  </mat-card>
+</div>
